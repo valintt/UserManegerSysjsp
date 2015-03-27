@@ -1,3 +1,5 @@
+<%@page import="bjfu.valin.UserBean"%>
+<%@page import="bjfu.valin.UserBeanCL"%>
 <%@page import="java.sql.*,java.util.*"%>
 <%@ page language="java" contentType="text/html; charset=gb2312"
     pageEncoding="gb2312"%>
@@ -23,8 +25,12 @@
 	//定义4个分页要用到的变量
 	int pageSize=5;//煤业显示5条记录
 	int pageNow=1;//默认显示第一页
-	int rowCount=0;//总共多少天记录
-	int pageCount=0;//有pageSize和rowCount计算得出
+	int pageCount=0;
+	
+	
+	
+	//int rowCount=0;//总共多少天记录
+	//int pageCount=0;//有pageSize和rowCount计算得出
 	
 	//对pageNow进行修改，接收用户希望显示的页数
 	String s_pageNow=request.getParameter("pageNowLink");
@@ -40,60 +46,81 @@
 	
 	//到数据库中验证用户
 	//1、加载驱动
-	Class.forName("com.mysql.jdbc.Driver");
+	//Class.forName("com.mysql.jdbc.Driver");
 	//2、得到连接
-	Connection conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/valindb","valin","131191");
-	//创建连接
-	Statement stat=conn.createStatement();
+	//Connection conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/valindb","valin","131191");
+	//创建连接3119
+	//Statement stat=conn.createStatement();
 	
 	//查询，执行
-	ResultSet rs=stat.executeQuery("select count(*) from users");
+	//ResultSet rs=stat.executeQuery("select count(*) from users");
 	
 	//一定要rs.next()，此时的rs指在存储数据的列的前一列
-	if(rs.next()){
-		rowCount=rs.getInt(1);
+//	if(rs.next()){
+//		rowCount=rs.getInt(1);
 				
-	}
+//	}
 	
 	//计算pageCount
-	if(rowCount%pageSize==0){
-		pageCount=rowCount/pageSize;
-	}else{
-		pageCount=rowCount/pageSize+1;
-	}
+//	if(rowCount%pageSize==0){
+//		pageCount=rowCount/pageSize;
+//	}else{
+//		pageCount=rowCount/pageSize+1;
+//	}
 	
 	//查询需要显示的记录
 	//rs=stat.executeQuery("select * from users where idusers  limit 'pageSize*(pageNow-1)','pageSize';");
 	
-	PreparedStatement ps=conn.prepareStatement("select * from users where idusers  limit ?,?;");
-	ps.setInt(1, pageSize*(pageNow-1));
-	ps.setInt(2, pageSize);
+	//PreparedStatement ps=conn.prepareStatement("select * from users where idusers  limit ?,?;");
+//	ps.setInt(1, pageSize*(pageNow-1));
+	//ps.setInt(2, pageSize);
 	
-	rs=ps.executeQuery();
+	//rs=ps.executeQuery();
+	
+	
 	
 	%>
 
 <!-- 构建表格 -->
-<table border="1" bgcolor=#FFAE40>
+<table border="1">
 <!-- 表头 -->
 	<tr><th>用户ID</th><th>用户名</th><th>密&nbsp;码</th><th>电&nbsp;邮</th><th>级&nbsp;别</th></tr>
 	
 	<%
 	
-	while(rs.next()){																															
-		%>
-		
-		<tr>
-		<td><%=rs.getInt(1) %></td>
-		<td><%=rs.getString(2) %></td>
-		<td><%=rs.getString(3) %></td>
-		<td><%=rs.getString(4)%></td>
-		<td><%=rs.getInt(5) %></td>
-		</tr>
-		<%
-	}
+	UserBeanCL ubc=new UserBeanCL();
 	
+	//************调用UserBeanCL的方法，完成分页显示
+	ArrayList al=ubc.getUserByPage(pageNow, pageSize);
+	
+	
+
+	//**********循环显示rs的结果集
+	//while(rs.next()){	
+		
+		
+	//循环显示ArrayList的结果集
+	String [] color={"#6C8CD5","#FFD073"};
+	
+	
+	for(int i=0;i<al.size();i++){
+		//从al中取出UserBean
+		
+		UserBean ub=(UserBean)al.get(i);
+		%>
+	
+		<tr bgcolor=<%=color[i%2] %>>
+		<td><%=ub.getUserId() %></td>
+		<td><%=ub.getUserName() %></td>
+		<td><%=ub.getPassWord() %></td>
+		<td><%=ub.getMail()%></td>
+		<td><%=ub.getGrade() %></td>
+		</tr>																													
+	
+	<%
+	}
 	%>
+	
 </table>
 
 	<%
@@ -109,6 +136,8 @@
 	}
 	
 	//下一页
+	
+	pageCount=ubc.getPageCount(pageSize);
 	if(pageNow!=pageCount){
 		out.println("<a href=Welcome.jsp?pageNowLink="+(pageNow+1)+">下一页</a>");
 	}

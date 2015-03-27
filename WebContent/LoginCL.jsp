@@ -1,4 +1,5 @@
-<%@page import="java.sql.*,java.util.*"%>
+<%@page import="bjfu.valin.UserBeanCL"%>
+<%@page import="java.sql.*,java.util.*,bjfu.valin.*"%>
 
 <%@ page language="java" contentType="text/html; charset=gb2312"
     pageEncoding="gb2312"%>
@@ -20,34 +21,53 @@
 	
 	//到数据库中验证用户
 	//1、加载驱动
-	Class.forName("com.mysql.jdbc.Driver");
+	//Class.forName("com.mysql.jdbc.Driver");
 	//2、得到连接
-	Connection conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/valindb","valin","131191");
+	//Connection conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/valindb","valin","131191");
 	//创建连接
-	Statement stat=conn.createStatement();
+	
+	//到数据库去验证用户，需将事件交给UserBeanCL.java操作
+	
+	//Statement stat=conn.createStatement();
 	
 	//查询，执行
-	ResultSet rs=stat.executeQuery("select password from users where usersname='"+u+"';");
+	//ResultSet rs=stat.executeQuery("select password from users where usersname='"+u+"';");
 	//根据结果做判断
-	if(rs.next()){
+	
+	
+	//调用UserBeanCL的方法，完成对用户的验证
+	UserBeanCL ubc=new UserBeanCL();
+	
+	if(ubc.checkUser(u, p)){
+		
+		response.sendRedirect("Welcome.jsp?user="+u);
+	}
+	else{
+		
+		response.sendRedirect("Login.jsp");
+	}
+	
+	
+	
+	//if(rs.next()){
 		
 		//说明用户名存在
 		//判断是否合法
-		if(rs.getString(1).equals(p)){
+	//	if(rs.getString(1).equals(p)){
 			//合法
-			response.sendRedirect("Welcome.jsp?user="+u);
+	//		response.sendRedirect("Welcome.jsp?user="+u);
 		
-		}
-		else{
+	//	}
+	//	else{
 			//密码错误
-			response.sendRedirect("Login.jsp?err=1");
+	//		response.sendRedirect("Login.jsp?err=1");
 			//return ;
-		}
+	//	}
 		
-	}//用户出错
-	else{
-		response.sendRedirect("Login.jsp?err=2");
-	}
+//	}//用户出错
+//	else{
+//		response.sendRedirect("Login.jsp?err=2");
+//	}
 	
 	
 	//***************简单的验证
