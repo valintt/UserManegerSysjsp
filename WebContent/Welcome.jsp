@@ -23,9 +23,9 @@
 	<%
 	
 	//定义4个分页要用到的变量
-	int pageSize=5;//煤业显示5条记录
-	int pageNow=1;//默认显示第一页
-	int pageCount=0;
+//	int pageSize=5;//煤业显示5条记录
+//	int pageNow=1;//默认显示第一页
+	//int pageCount=0;
 	
 	
 	
@@ -33,14 +33,14 @@
 	//int pageCount=0;//有pageSize和rowCount计算得出
 	
 	//对pageNow进行修改，接收用户希望显示的页数
-	String s_pageNow=request.getParameter("pageNowLink");
+	//String s_pageNow=request.getParameter("pageNowLink");
 	
 	//用户登录验证进入welcome页面，不传pageNowLink
-	if(s_pageNow!=null){
+	//if(s_pageNow!=null){
 		//接收到pageNow
-		pageNow=Integer.parseInt(s_pageNow);
+		//pageNow=Integer.parseInt(s_pageNow);
 		
-	}
+	//}
 	
 	//1、查询数据库得到rowCount
 	
@@ -88,13 +88,15 @@
 	
 	<%
 	
-	UserBeanCL ubc=new UserBeanCL();
+	//UserBeanCL ubc=new UserBeanCL();
 	
 	//************调用UserBeanCL的方法，完成分页显示
-	ArrayList al=ubc.getUserByPage(pageNow, pageSize);
+	//ArrayList al=ubc.getUserByPage(pageNow, pageSize);
+	
+	//要显示的用户信息从request中取
+	ArrayList al=(ArrayList)request.getAttribute("result");
 	
 	
-
 	//**********循环显示rs的结果集
 	//while(rs.next()){	
 		
@@ -124,22 +126,32 @@
 </table>
 
 	<%
+	
+	//从request中取出pageNow
+	int pageNow=Integer.parseInt((String)request.getAttribute("pageNow"));
+	
 	//上一页
 	if(pageNow!=1){
-		out.println("<a href=Welcome.jsp?pageNowLink="+(pageNow-1)+">上一页</a>");
+		out.println("<a href=userCLServlet?pageNowLink="+(pageNow-1)+">上一页</a>");
 	}
 	//显示超链接
 	for(int i=pageNow;i<=pageNow+4;i++){
 		
-		out.println("<a href=Welcome.jsp?pageNowLink="+i+">["+i+"]</a>");
+		out.println("<a href=userCLServlet?pageNowLink="+i+">["+i+"]</a>");
 		
 	}
 	
 	//下一页
 	
-	pageCount=ubc.getPageCount(pageSize);
+	//得到pageCount
+	//int pageCount=Integer.parseInt((String)request.getAttribute("pageCount"));
+	String s_pageCount=(String)request.getAttribute("pageCount");
+	int pageCount=Integer.parseInt(s_pageCount);
+
+	
+	//pageCount=ubc.getPageCount(pageSize);
 	if(pageNow!=pageCount){
-		out.println("<a href=Welcome.jsp?pageNowLink="+(pageNow+1)+">下一页</a>");
+		out.println("<a href=userCLServlet?pageNowLink="+(pageNow+1)+">下一页</a>");
 	}
 	
 	%>

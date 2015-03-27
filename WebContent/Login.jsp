@@ -11,11 +11,11 @@
 	<h1>用户登录</h1>
 	<hr color=#043C6B>
 	<br>
-	<form action="LoginCL.jsp" method="post">
+	<form action="loginCLServlet" method="post">
 	用户名：<input type="text" name="username"><br><br>
 	密&nbsp;&nbsp;码：<input type="password" name="password"><br><br>
-	<input type="submit" value="登录">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	<input type="reset" value="重置"><br>
+	<input type="submit" value="登&nbsp;录">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<input type="reset" value="重&nbsp;置"><br>
 	 
 	
 	</form>

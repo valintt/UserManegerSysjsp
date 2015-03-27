@@ -11,10 +11,11 @@ public class UserBeanCL {
 	
 	private PreparedStatement ps=null;
 	private ResultSet rs=null;
-	private Connection conn=null;																																					
+	private Connection conn=null;	
+	int pageSize=5;
 	
 	//返回pageCount，分页的总页数
-	public int getPageCount(int pageSize) {
+	public int getPageCount() {
 		int pageCount=0;
 		int rowCount=0;
 		
@@ -52,7 +53,7 @@ public class UserBeanCL {
 	
 	
 	//得到用户需要显示的用户信息
-	public 	ArrayList getUserByPage(int pageNow,int pageSize) {
+	public 	ArrayList getUserByPage(int pageNow) {
 		
 		ArrayList al=new ArrayList();
 		int rowCount=0;
