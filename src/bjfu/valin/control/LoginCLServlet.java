@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import bjfu.valin.Tools;
 import bjfu.valin.UserBeanCL;
 
 /**
@@ -36,8 +37,17 @@ public class LoginCLServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		//得到用户名和密码
 		String u=request.getParameter("username");
+		
+		//将u的中文形式转换，解决数据库中中文识别乱码
+		//u=new String(u.getBytes("iso-8859-1"),"gb2312");
+		//调用Tools.class的函数
+		u=Tools.getNewString(u);
+		
+		
 		String p=request.getParameter("password");
 	
+		
+		
 		
 		//使用模型完成对用户的验证
 		//1、创建一个UserBeanCL对象，
@@ -57,6 +67,12 @@ public class LoginCLServlet extends HttpServlet {
 			request.setAttribute("pageCount", pageCount+"");
 			request.setAttribute("pageNow", "1");
 			
+			
+			//将用户名放入Session，以备后用
+			request.getSession().setAttribute("myName", u);
+			request.getSession().setMaxInactiveInterval(20);
+			
+			
 			//合法
 			//转向方法，效率不高	
 			//response.sendRedirect("Welcome.jsp");
@@ -65,6 +81,8 @@ public class LoginCLServlet extends HttpServlet {
 			//效率高，同事request中的对象还可以在下一个页面使用
 			request.getRequestDispatcher("Welcome.jsp?user="+u).forward(request, response);
 
+		
+		
 		}
 		else{
 			

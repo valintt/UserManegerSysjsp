@@ -15,8 +15,28 @@
 
 <br>
 
+<%
+	//防止非法登录
+	String u=(String)session.getAttribute("myName");
+
+	//如果用户未登录
+	if(u==null){
+		//使用过的内置对象(request,out,response,session)
+		
+		//返回登录界面
+		response.sendRedirect("Login.jsp?error=1");
+		
+		//必须
+		return ;
+	}
+	
+
+%>
+
+
 <!-- 要和LoginCL.jsp页面的Welcome.jsp?user="+u一样 -->
-<%=request.getParameter("user") %>
+<!-- //<%//=//request.getParameter("user") //%> -->
+<%=u %>
 ，登录成功！<br><br>
 <hr color=#043C6B>
 <h1>用户信息列表</h1>

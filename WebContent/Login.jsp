@@ -8,6 +8,18 @@
 </head>
 	<body bgcolor=#3F8FD2>
 	<center>
+	
+	<%
+		String error=request.getParameter("error");
+		if(error!=null){
+			if(error.equals("1")){
+				
+				out.println("<font color=red size=5>用户正常登录，请登录！</font>");
+			}
+		}
+	
+	%>
+	
 	<h1>用户登录</h1>
 	<hr color=#043C6B>
 	<br>
