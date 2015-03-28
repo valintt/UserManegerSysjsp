@@ -7,6 +7,8 @@
 <title>Login</title>
 </head>
 	<body bgcolor=#3F8FD2>
+	<img  src="imgs/welcome.gif">
+	<hr color=#043C6B>
 	<center>
 	
 	<%
@@ -21,7 +23,7 @@
 	%>
 	
 	<h1>用户登录</h1>
-	<hr color=#043C6B>
+	
 	<br>
 	<form action="loginCLServlet" method="post">
 	用户名：<input type="text" name="username"><br><br>
@@ -31,9 +33,11 @@
 	 
 	
 	</form>
-	
+	<br>
 	
 	</center>
+	<hr color=#043C6B>
+	<img  src="imgs/pikaqiugif1.gif">
 	</body>
 
 	

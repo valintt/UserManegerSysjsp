@@ -8,12 +8,24 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=gb2312">
 <title>Welcome</title>
+
+<script type="text/javascript">
+<!-- 
+	function abc(){
+		return window.confirm("确定执行该操作？");
+
+	}
+
+ -->
+
+ </script>
+ 
 </head>
 <body bgcolor=#3F8FD2 >
+<img  src="imgs/welcome.gif">
 
-<center>
 
-<br>
+
 
 <%
 	//防止非法登录
@@ -37,8 +49,9 @@
 <!-- 要和LoginCL.jsp页面的Welcome.jsp?user="+u一样 -->
 <!-- //<%//=//request.getParameter("user") //%> -->
 <%=u %>
-，登录成功！<br><br>
+，登录成功！<br>
 <hr color=#043C6B>
+<center>
 <h1>用户信息列表</h1>
 	<%
 	
@@ -104,7 +117,8 @@
 <!-- 构建表格 -->
 <table border="1">
 <!-- 表头 -->
-	<tr><th>用户ID</th><th>用户名</th><th>密&nbsp;码</th><th>电&nbsp;邮</th><th>级&nbsp;别</th></tr>
+	<tr><th>用户ID</th><th>用户名</th><th>密&nbsp;码</th><th>电&nbsp;邮</th><th>级&nbsp;别</th>
+	<th>修改用户</th><th>删除用户</th></tr>
 	
 	<%
 	
@@ -137,6 +151,8 @@
 		<td><%=ub.getPassWord() %></td>
 		<td><%=ub.getMail()%></td>
 		<td><%=ub.getGrade() %></td>
+		<td><a href="#">修改用户</a></td>
+		<td><a href="userCLServlet?flag=delUser&userId=<%=ub.getUserId() %>" onclick="return abc()">删除用户</a></td>
 		</tr>																													
 	
 	<%
@@ -144,7 +160,7 @@
 	%>
 	
 </table>
-
+	<br>
 	<%
 	
 	//从request中取出pageNow
@@ -152,12 +168,12 @@
 	
 	//上一页
 	if(pageNow!=1){
-		out.println("<a href=userCLServlet?pageNowLink="+(pageNow-1)+">上一页</a>");
+		out.println("<a href=userCLServlet?pageNowLink="+(pageNow-1)+"&flag=fenye>上一页</a>");
 	}
 	//显示超链接
 	for(int i=pageNow;i<=pageNow+4;i++){
 		
-		out.println("<a href=userCLServlet?pageNowLink="+i+">["+i+"]</a>");
+		out.println("<a href=userCLServlet?pageNowLink="+i+"&flag=fenye>["+i+"]</a>");
 		
 	}
 	
@@ -171,7 +187,7 @@
 	
 	//pageCount=ubc.getPageCount(pageSize);
 	if(pageNow!=pageCount){
-		out.println("<a href=userCLServlet?pageNowLink="+(pageNow+1)+">下一页</a>");
+		out.println("<a href=userCLServlet?pageNowLink="+(pageNow+1)+"&flag=fenye>下一页</a>");
 	}
 	
 	%>
@@ -179,10 +195,14 @@
 	
 	
 
-<br><br><a href="Login.jsp">退&nbsp;&nbsp;出</a>
-
+<br><br><a href="Login.jsp">退&nbsp;&nbsp;&nbsp;出</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="Main.jsp">返回主页面</a>
+<br><br>
 
 </center>
+
+<hr color=#043C6B>
+<img  src="imgs/pikaqiugif1.gif">
 
 </body>
 </html>

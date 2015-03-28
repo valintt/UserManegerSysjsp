@@ -79,7 +79,7 @@ public class LoginCLServlet extends HttpServlet {
 			
 			//上述方法效率不高，常使用转发的方法
 			//效率高，同事request中的对象还可以在下一个页面使用
-			request.getRequestDispatcher("Welcome.jsp?user="+u).forward(request, response);
+			request.getRequestDispatcher("Main.jsp?user="+u).forward(request, response);
 
 		
 		

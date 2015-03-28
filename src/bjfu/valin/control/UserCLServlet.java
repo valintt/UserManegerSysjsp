@@ -40,33 +40,101 @@ public class UserCLServlet extends HttpServlet {
 		
 		//String u=request.getParameter("username");
 		
-		try{
-			
-			System.out.println("分页为UserCLServlet");
-			
-			int pageNow=Integer.parseInt(request.getParameter("pageNowLink"));
-			
-			//调用UserBeanCL
-			UserBeanCL ubc=new UserBeanCL();
-			
-			//准备好
-			ArrayList al=ubc.getUserByPage(pageNow );
-			int pageCount=ubc.getPageCount();
-			//将al，pageCount放入request中
-			request.setAttribute("result", al);
-			request.setAttribute("pageCount", pageCount+"");
-			request.setAttribute("pageNow", pageNow+"");
-			
-
-			//重新跳转回Welcome.jsp页面，转发
-			request.getRequestDispatcher("Welcome.jsp").forward(request, response);;
-			
-			
-		}
-		catch(Exception ex){
-			ex.printStackTrace();
-		}
 		
+		//获得标志值flag
+		String flag=request.getParameter("flag");
+		
+		
+		//如果现实分页信息，进入该if分支
+		if(flag.equals("fenye")){
+			
+			try{
+				
+				System.out.println("分页为UserCLServlet");
+				
+				int pageNow=Integer.parseInt(request.getParameter("pageNowLink"));
+				
+				//调用UserBeanCL
+				UserBeanCL ubc=new UserBeanCL();
+				
+				//准备好
+				ArrayList al=ubc.getUserByPage(pageNow );
+				int pageCount=ubc.getPageCount();
+				//将al，pageCount放入request中
+				request.setAttribute("result", al);
+				request.setAttribute("pageCount", pageCount+"");
+				request.setAttribute("pageNow", pageNow+"");
+				
+	
+				//重新跳转回Welcome.jsp页面，转发
+				request.getRequestDispatcher("Welcome.jsp").forward(request, response);;
+				
+				
+			}
+			catch(Exception ex){
+				ex.printStackTrace();
+			}
+		}
+		else if(flag.equals("delUser")){
+			//完成删除用户
+			
+			try{
+				//1、得到要删除的用户的id号
+				String userId=request.getParameter("userId");
+				 
+				UserBeanCL ubc=new UserBeanCL();
+				
+				//boolean bool=ubc.delUserById(userId);
+				
+				if(ubc.delUserById(userId)){
+					//删除成功
+					request.getRequestDispatcher("Success.jsp").forward(request, response);
+					
+					
+				}else{
+				
+					//不成功
+					request.getRequestDispatcher("Error.jsp").forward(request, response);
+				}
+				
+			}
+			catch(Exception ex){
+				ex.printStackTrace();
+			}
+		}
+		else if(flag.equals("addUser")){
+			//完成删除用户
+			
+			try{
+				//1、得到用户输入的信息
+				String name=request.getParameter("userName");
+				String passWord=request.getParameter("passWord");
+				String mail=request.getParameter("mail");
+				String grade=request.getParameter("grade");
+				
+				
+				
+				UserBeanCL ubc=new UserBeanCL();
+				
+				//boolean bool=ubc.delUserById(userId);
+				
+				if(ubc.addUser(name, passWord, mail, grade)){
+					//添加成功
+					request.getRequestDispatcher("Success.jsp").forward(request, response);
+					
+					
+				}else{
+				
+					//不成功
+					request.getRequestDispatcher("Error.jsp").forward(request, response);
+				}
+				
+			}
+			catch(Exception ex){
+				ex.printStackTrace();
+			}
+			
+		}
 		
 	}
 

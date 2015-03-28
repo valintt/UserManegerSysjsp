@@ -14,6 +14,86 @@ public class UserBeanCL {
 	private Connection conn=null;	
 	int pageSize=5;
 	
+	//添加用户
+	/**
+	 * @author 燕林
+	 * @param name:用户名
+	 * @param passWord：密码
+	 * @param mail：电子邮件
+	 * @param grade：级别
+	 * @return boolean：true，添加成功；false：添加失败。
+	 */
+	public boolean addUser(String name,String passWord,String mail,String grade) {
+		
+		boolean bool=false;
+		
+		try{
+			//得到链接
+			conn=new ConnDB().getConn();																										
+			
+			ps=conn.prepareStatement("insert into users (usersname, password, mail, grade) values(?,?,?,?);");
+			ps.setString(1, name);
+			ps.setString(2, passWord);
+			ps.setString(3, mail);
+			ps.setInt(4, Integer.parseInt(grade));
+			
+			
+			//检测执行是否成功，返回int值，表示受影响的行数
+			int temp=ps.executeUpdate();
+			
+			if(temp==1){
+				//添加成功
+				bool=true;
+			}
+			
+		}
+		catch(Exception ex){
+			ex.printStackTrace();
+		}
+		finally{
+			this.Close();
+		}
+		
+		return bool;
+		
+		
+	}
+	
+	
+	//删除用户
+	public boolean delUserById(String userId) {																								
+		
+		boolean bool=false;
+		
+		try{
+			//得到链接
+			conn=new ConnDB().getConn();																										
+			
+			ps=conn.prepareStatement("delete from users where idusers=?");
+			ps.setInt(1, Integer.parseInt(userId));
+			
+			
+			//检测执行是否成功，返回int值，表示受影响的行数
+			int temp=ps.executeUpdate();
+			
+			if(temp==1){
+				//删除成功
+				bool=true;
+			}
+			
+		}
+		catch(Exception ex){
+			ex.printStackTrace();
+		}
+		finally{
+			this.Close();
+		}
+		
+		return bool;
+		
+	}
+	
+	
 	//返回pageCount，分页的总页数
 	public int getPageCount() {
 		int pageCount=0;
